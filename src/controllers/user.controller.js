@@ -2,6 +2,7 @@ const { comparePassword, hashPassword } = require("../config/bcrypt.config.js");
 const { BlacklistToken } = require("../models/blacklistToken.model.js");
 const { User } = require("../models/user.model.js");
 const { sendErrorResponse, sendSuccessResponse } = require("../utils/response.js");
+const { updateUserSchema, changePasswordSchema } = require("../validations/user.validation");
 
 class UserController {
   async getAllUsers(req, res) {
@@ -24,6 +25,11 @@ class UserController {
   }
 
   async updateMe(req, res) {
+    const { error } = updateUserSchema.validate(req.body);
+    if (error) {
+      return sendErrorResponse(res, 400, error.details[0].message);
+    }
+
     const userId = req.user._id;
     console.log("User ID:", userId);
     console.log("Request Body:", req.body);
@@ -75,6 +81,11 @@ class UserController {
   }
 
   async updateUser(req, res) {
+    const { error } = updateUserSchema.validate(req.body);
+    if (error) {
+      return sendErrorResponse(res, 400, error.details[0].message);
+    }
+
     const userId = req.params.id;
     const { firstName, lastName, country, company, phoneNumber, address } = req.body;
 
@@ -119,6 +130,11 @@ class UserController {
   }
 
   async changePassword(req, res) {
+    const { error } = changePasswordSchema.validate(req.body);
+    if (error) {
+      return sendErrorResponse(res, 400, error.details[0].message);
+    }
+
     const userId = req.user._id;
     const { oldPassword, newPassword } = req.body;
 
