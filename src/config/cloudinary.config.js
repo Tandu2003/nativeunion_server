@@ -1,4 +1,4 @@
-const { cloudinary } = require("./env");
+const { cloudinary } = require("./env.config");
 
 const cloudinaryv2 = require("cloudinary").v2;
 
