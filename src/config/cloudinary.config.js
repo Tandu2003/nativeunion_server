@@ -8,4 +8,27 @@ cloudinaryv2.config({
   api_secret: cloudinary.apiSecret,
 });
 
-module.exports = cloudinaryv2;
+const uploadImage = async (filePath) => {
+  try {
+    const result = await cloudinaryv2.uploader.upload(filePath, {
+      upload_preset: "native_union",
+    });
+
+    return result.public_id;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw new Error("Failed to upload image to Cloudinary");
+  }
+};
+
+const deleteImage = async (publicId) => {
+  try {
+    const result = await cloudinaryv2.uploader.destroy(publicId);
+    return result;
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw new Error("Failed to delete image from Cloudinary");
+  }
+};
+
+module.exports = { uploadImage, deleteImage };
