@@ -4,12 +4,14 @@ const { authenticate, isAdmin } = require("../middlewares/auth.middleware");
 
 const router = Router();
 
-router.get("/me", authenticate, UserController.getMe);
-router.put("/me", authenticate, UserController.updateMe);
+router
+  .get("/me", authenticate, UserController.getMe)
+  .put("/me", authenticate, UserController.updateMe);
 router.post("/me/change-password", authenticate, UserController.changePassword);
 
 router.get("/", authenticate, isAdmin, UserController.getAllUsers);
-router.put("/:id", authenticate, isAdmin, UserController.updateUser);
-router.delete("/:id", authenticate, isAdmin, UserController.deleteUser);
+router
+  .put("/:id", authenticate, isAdmin, UserController.updateUser)
+  .delete("/:id", authenticate, isAdmin, UserController.deleteUser);
 
 module.exports = router;
