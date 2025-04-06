@@ -167,6 +167,17 @@ class ProductController {
       sendErrorResponse(res, 500, "Failed to delete product", error);
     }
   }
+
+  async searchProductByName(req, res) {
+    const { name } = req.params;
+    try {
+      const regex = new RegExp(name, "i");
+      const products = await Product.find({ name: { $regex: regex } });
+      sendSuccessResponse(res, products);
+    } catch (error) {
+      sendErrorResponse(res, 500, "Failed to search products", error);
+    }
+  }
 }
 
 module.exports = new ProductController();
