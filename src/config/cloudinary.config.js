@@ -11,10 +11,10 @@ cloudinaryv2.config({
 const uploadImage = async (filePath) => {
   try {
     const result = await cloudinaryv2.uploader.upload(filePath, {
-      upload_preset: "native_union",
+      folder: "native_union",
     });
 
-    return result.public_id;
+    return result;
   } catch (error) {
     console.error("Error uploading image:", error);
     throw new Error("Failed to upload image to Cloudinary");
